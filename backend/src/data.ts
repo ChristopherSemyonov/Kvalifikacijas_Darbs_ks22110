@@ -1,4 +1,6 @@
-import { Product } from './types/Product'
+import bcrypt from 'bcryptjs'
+import { User } from './models/userModel'
+import { Product } from './models/productModel'
 
 export const sampleProducts: Product[] = [
   {
@@ -7,7 +9,7 @@ export const sampleProducts: Product[] = [
     category: 'GPU',
     image: '../images/p1.jpg',
     price: 1200,
-    countInStock: 0,
+    countInStock: 10,
     brand: 'Gigabyte',
     rating: 4.5,
     numReviews: 10,
@@ -32,7 +34,7 @@ export const sampleProducts: Product[] = [
     image: '../images/p3.jpg',
     price: 1800,
     countInStock: 3,
-    brand: 'Gigabyte',
+    brand: 'Asus',
     rating: 5.0,
     numReviews: 8,
     description: 'premium quality graphics card',
@@ -44,9 +46,72 @@ export const sampleProducts: Product[] = [
     image: '../images/p4.jpg',
     price: 1300,
     countInStock: 12,
-    brand: 'Gigabyte',
+    brand: 'MSI',
     rating: 4.3,
     numReviews: 15,
     description: 'powerful graphics card',
+  },
+  {
+    name: ' GIGABYTE RTX 4080',
+    slug: 'msi-rtx-4080',
+    category: 'GPU',
+    image: '../images/p5.jpg',
+    price: 1000,
+    countInStock: 2,
+    brand: 'Gigabyte',
+    rating: 5.0,
+    numReviews: 7,
+    description: 'pretty powerful graphics card',
+  },
+  {
+    name: ' MSI RTX 4070 Ti SUPER',
+    slug: 'msi-rtx-4070-ti-super',
+    category: 'GPU',
+    image: '../images/p6.jpg',
+    price: 900,
+    countInStock: 0,
+    brand: 'MSI',
+    rating: 3.5,
+    numReviews: 11,
+    description: 'decently powerful graphics card',
+  },
+  {
+    name: ' Asus ProArt rtx 4070 Ti',
+    slug: 'asus-proart-rtx-4070-ti',
+    category: 'GPU',
+    image: '../images/p7.jpg',
+    price: 800,
+    countInStock: 10,
+    brand: 'Gigabyte',
+    rating: 4.8,
+    numReviews: 19,
+    description: 'elegant and powerful graphics card',
+  },
+  {
+    name: 'GIGABYTE GT 1030 ',
+    slug: 'gigabyte-gt-1030',
+    category: 'GPU',
+    image: '../images/p8.jpg',
+    price: 100,
+    countInStock: 25,
+    brand: 'Gigabyte',
+    rating: 4.0,
+    numReviews: 145,
+    description: 'not so powerful graphics card',
+  },
+]
+
+export const sampleUsers: User[] = [
+  {
+    name: 'Joe',
+    email: 'admin@example.com',
+    password: bcrypt.hashSync('123456'),
+    isAdmin: true,
+  },
+  {
+    name: 'John',
+    email: 'user@example.com',
+    password: bcrypt.hashSync('123456'),
+    isAdmin: false,
   },
 ]
