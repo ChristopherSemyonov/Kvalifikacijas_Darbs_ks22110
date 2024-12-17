@@ -12,6 +12,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Store } from './Store'
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 function App() {
   const {
@@ -41,19 +42,28 @@ function App() {
       <ToastContainer position="bottom-center" limit={1} />
       <header>
         <Navbar expand="lg">
-          <Container>
-            <LinkContainer to="/">
-              <Navbar.Brand>PCWorld</Navbar.Brand>
+          <Container className="brand-container">
+            <LinkContainer to="/products">
+              <Navbar.Brand>
+                <img src="/custom-icon.svg" alt="Logo" className="logo" />
+                <span className="brand-text">PCWorld</span>
+              </Navbar.Brand>
             </LinkContainer>
           </Container>
-          <Nav>
+          <Nav className="nav-buttons">
             <Button variant={mode} onClick={SwitchModeHandler}>
-              <i className={mode === 'light' ? 'fa fa-sun' : 'fa fa-moon'}></i>
+              <i
+                className={
+                  mode === 'light'
+                    ? 'fa-solid fa-lightbulb'
+                    : 'fa-regular fa-lightbulb'
+                }
+              ></i>
             </Button>
             <Link to="/cart" className="nav-link">
               Cart
               {cart.cartItems.length > 0 && (
-                <Badge pill bg="danger">
+                <Badge pill bg="success" className="cart-item-count">
                   {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                 </Badge>
               )}
@@ -79,13 +89,13 @@ function App() {
           </Nav>
         </Navbar>
       </header>
-      <main>
+      <main className="flex-grow-1">
         <Container className="mt-3">
           <Outlet />
         </Container>
       </main>
       <footer>
-        <div className="text-center">All rights reserved</div>
+        <div className="text-center">Kristofers Semjonovs, ks22110</div>
       </footer>
     </div>
   )

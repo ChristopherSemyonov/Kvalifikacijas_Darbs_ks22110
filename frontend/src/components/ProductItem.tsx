@@ -17,42 +17,59 @@ function ProductItem({ product }: { product: Product }) {
   const addToCartHandler = (item: CartItem) => {
     const existItem = cartItems.find((x) => x._id === product._id)
     const quantity = existItem ? existItem.quantity + 1 : 1
+
     if (product.countInStock < quantity) {
-      alert('Sorry. Product is out of stock')
+      toast.dismiss('cartAdd')
+      if (!toast.isActive('stockOut')) {
+        toast.error('Sorry. Product is out of stock', {
+          toastId: 'stockOut',
+          autoClose: 2000, // Toast duration in milliseconds
+        })
+      }
       return
     }
+
     dispatch({
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity },
     })
-    toast.success('Product added to the cart')
+
+    toast.dismiss('stockOut')
+    if (!toast.isActive('cartAdd')) {
+      toast.success('Product added to the cart', {
+        toastId: 'cartAdd',
+        autoClose: 2000, // Toast duration in milliseconds
+      })
+    }
   }
 
   return (
-    <Card>
-      <Link to={`/product/${product.slug}`}>
-        <img src={product.image} className="card-img-top" alt={product.name} />
-      </Link>
-      <Card.Body>
-        <Link to={`/product/${product.slug}`}>
-          <Card.Title>{product.name}</Card.Title>
-        </Link>
-        <Rating rating={product.rating} numReviews={product.numReviews} />
-        <Card.Text>${product.price}</Card.Text>
-        {product.countInStock === 0 ? (
-          <Button variant="light" disabled>
-            Out of stock
-          </Button>
-        ) : (
-          <Button
-            onClick={() => addToCartHandler(convertProductToCartItem(product))}
-          >
-            {' '}
-            Add to cart
-          </Button>
-        )}
-      </Card.Body>
-    </Card>
+    <Link to={`/product/${product.slug}`} className="product-container">
+      <Card className="product-body">
+        <img src={product.image} alt={product.name} />
+        <Card.Body>
+          <Card.Title className="product-title">{product.name}</Card.Title>
+          <Rating rating={product.rating} numReviews={product.numReviews} />
+          <Card.Text>${product.price}</Card.Text>
+          {product.countInStock === 0 ? (
+            <Button className="out-of-stock-btn" variant="light" disabled>
+              Out of stock
+            </Button>
+          ) : (
+            <Button
+              className="add-to-cart-btn"
+              variant="success"
+              onClick={(e) => {
+                e.preventDefault()
+                addToCartHandler(convertProductToCartItem(product))
+              }}
+            >
+              Add to cart
+            </Button>
+          )}
+        </Card.Body>
+      </Card>
+    </Link>
   )
 }
 

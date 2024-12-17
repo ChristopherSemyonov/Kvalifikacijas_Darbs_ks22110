@@ -88,7 +88,7 @@ export const sampleProducts: Product[] = [
     description: 'elegant and powerful graphics card',
   },
   {
-    name: 'GIGABYTE GT 1030 ',
+    name: 'GIGABYTE GT 1030',
     slug: 'gigabyte-gt-1030',
     category: 'GPU',
     image: '../images/p8.jpg',

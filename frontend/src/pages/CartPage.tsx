@@ -45,7 +45,7 @@ export default function CartPage() {
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Cart is empty. <Link to="/">Go Shopping</Link>
+              Cart is empty. <Link to="/products">Go Shopping</Link>
             </MessageBox>
           ) : (
             <ListGroup>
@@ -111,7 +111,7 @@ export default function CartPage() {
                   <div className="d-grid">
                     <Button
                       type="button"
-                      variant="primary"
+                      variant="success"
                       onClick={checkoutHandler}
                       disabled={cartItems.length === 0}
                     >
