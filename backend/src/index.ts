@@ -11,7 +11,8 @@ import { keyRouter } from './routers/keyRouter'
 dotenv.config()
 
 const MONGODB_URI =
-  process.env.MONGODB_URI || 'mongodb://localhost/DatoruVeikals'
+  process.env.MONGODB_URI ||
+  'mongodb+srv://kristofers:krist2011@cluster0.x6dxp.mongodb.net/userkristofers?retryWrites=true&w=majority&appName=Cluster0'
 mongoose.set('strictQuery', true)
 
 mongoose
@@ -20,7 +21,7 @@ mongoose
     console.log('connected to mongodb')
   })
   .catch(() => {
-    console.log('error mongodb')
+    console.log('error with connection to mongodb')
   })
 
 const app = express()

@@ -68,7 +68,7 @@ export default function SigninPage() {
           />
         </Form.Group>
         <div className="mb-3">
-          <Button disabled={isLoading} type="submit">
+          <Button disabled={isLoading} variant="success" type="submit">
             Sign In
           </Button>
           {isLoading && <LoadingBox />}

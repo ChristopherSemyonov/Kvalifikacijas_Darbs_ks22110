@@ -90,7 +90,9 @@ export default function SignupPage() {
         </Form.Group>
 
         <div className="mb-3">
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit" variant="success">
+            Sign Up
+          </Button>
         </div>
 
         <div className="mb-3">
