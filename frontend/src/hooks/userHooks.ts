@@ -58,3 +58,20 @@ export const useUpdateProfileMutation = () =>
         })
       ).data,
   })
+
+export const useForgotPasswordMutation = () =>
+  useMutation({
+    mutationFn: async ({
+      email,
+      newPassword,
+    }: {
+      email: string
+      newPassword: string
+    }) =>
+      (
+        await apiClient.post<{ message: string }>(`api/users/forgotpassword`, {
+          email,
+          newPassword,
+        })
+      ).data,
+  })

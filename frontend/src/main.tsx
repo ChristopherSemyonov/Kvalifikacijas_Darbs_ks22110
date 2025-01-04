@@ -26,6 +26,7 @@ import OrderPage from './pages/OrderPage.tsx'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import OrderHistoryPage from './pages/OrderHistoryPage.tsx'
 import MainPage from './pages/MainPage.tsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<SigninPage />} />
       <Route path="signup" element={<SignupPage />} />
+      <Route path="forgotpassword" element={<ForgotPasswordPage />} />
       <Route path="" element={<ProtectedRoute />}>
         <Route path="shipping" element={<ShippingAddressPage />} />
         <Route path="payment" element={<PaymentMethodPage />} />

@@ -60,6 +60,9 @@ function App() {
                 }
               ></i>
             </Button>
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
             <Link to="/cart" className="nav-link">
               Cart
               {cart.cartItems.length > 0 && (

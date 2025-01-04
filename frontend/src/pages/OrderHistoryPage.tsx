@@ -28,11 +28,11 @@ export default function OrderHistoryPage() {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>DATE</th>
+              <th>ORDER ID</th>
+              <th>DATE ORDERED</th>
               <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
+              <th>DATE PAID</th>
+              <th>DELIVERY STATUS</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
@@ -46,7 +46,7 @@ export default function OrderHistoryPage() {
                 <td>
                   {order.isDelivered
                     ? order.deliveredAt.substring(0, 10)
-                    : 'No'}
+                    : 'Not delivered'}
                 </td>
                 <td>
                   <Button
