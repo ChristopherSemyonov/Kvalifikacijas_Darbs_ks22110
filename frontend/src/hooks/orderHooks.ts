@@ -52,3 +52,13 @@ export const useGetOrderHistoryQuery = () =>
     queryFn: async () =>
       (await apiClient.get<Order[]>(`/api/orders/mine`)).data,
   })
+
+export const useUpdateStockMutation = () =>
+  useMutation({
+    mutationFn: async (orderItems: { productId: string; quantity: number }[]) =>
+      (
+        await apiClient.post<{ message: string }>(`api/products/updateStock`, {
+          orderItems,
+        })
+      ).data,
+  })

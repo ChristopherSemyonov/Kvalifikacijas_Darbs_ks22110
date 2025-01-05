@@ -27,12 +27,14 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import OrderHistoryPage from './pages/OrderHistoryPage.tsx'
 import MainPage from './pages/MainPage.tsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage.tsx'
+import CategorySelectionPage from './pages/CategorySelectionPage.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} element={<MainPage />} />
-      <Route path="products" element={<HomePage />} />
+      <Route path="category" element={<CategorySelectionPage />} />
+      <Route path="category/:category" element={<HomePage />} />
       <Route path="product/:slug" element={<ProductPage />} />
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<SigninPage />} />

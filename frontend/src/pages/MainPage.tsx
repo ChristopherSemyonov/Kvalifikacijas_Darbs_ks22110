@@ -19,13 +19,13 @@ function MainPage() {
         {userInfo ? (
           <>
             <span className="me-3">Welcome back, {userInfo.name}!</span>
-            <Link to={`/products`}>
+            <Link to={`/category`}>
               <Button variant="success">Go Shopping</Button>
             </Link>
           </>
         ) : (
           <>
-            <Link to={`/products`}>
+            <Link to={`/category`}>
               <Button variant="success" className="me-3">
                 Go Shopping
               </Button>

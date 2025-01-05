@@ -59,7 +59,7 @@ img.thumbnail {
   width: 40px;
   height: 40px;
   object-fit: contain;
-  margin-right: 8px; /* Space between the logo and text */
+  margin-right: 8px;
 }
 
 .brand-text {
@@ -68,12 +68,12 @@ img.thumbnail {
 }
 
 .product-container {
-  text-decoration: none; /* No underline by default */
-  color: inherit; /* Allow the theme to dynamically change */
+  text-decoration: none;
+  color: inherit;
 }
 
 .product-container:hover .product-title {
-  text-decoration: underline; /* Underline effect when hovering over the whole card container */
+  text-decoration: underline;
 }
 
 .add-to-cart-btn {
@@ -107,4 +107,18 @@ img.thumbnail {
   background-size: 45%;
   background-position: 95%;
   background-repeat: no-repeat;
+}
+
+.category-image {
+  padding: 10%;
+}
+
+.category-text {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.category-card:hover {
+  text-decoration: underline;
 }

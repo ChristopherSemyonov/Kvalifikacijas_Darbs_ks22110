@@ -43,7 +43,7 @@ function App() {
       <header>
         <Navbar expand="lg">
           <Container className="brand-container">
-            <LinkContainer to="/products">
+            <LinkContainer to="/">
               <Navbar.Brand>
                 <img src="/custom-icon.svg" alt="Logo" className="logo" />
                 <span className="brand-text">PCWorld</span>
@@ -60,8 +60,8 @@ function App() {
                 }
               ></i>
             </Button>
-            <Link to="/" className="nav-link">
-              Home
+            <Link to="/category" className="nav-link">
+              Products
             </Link>
             <Link to="/cart" className="nav-link">
               Cart

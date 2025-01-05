@@ -15,6 +15,7 @@ import {
   useGetOrderDetailsQuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
+  useUpdateStockMutation, // Import the new mutation
 } from '../hooks/orderHooks'
 import { Store } from '../Store'
 import { ApiError } from '../types/ApiError'
@@ -35,11 +36,21 @@ export default function OrderPage() {
   } = useGetOrderDetailsQuery(orderId!)
 
   const { mutateAsync: payOrder, isLoading: loadingPay } = usePayOrderMutation()
+  const { mutateAsync: updateStock } = useUpdateStockMutation() // Get the mutation
 
   const testPayHandler = async () => {
     await payOrder({ orderId: orderId! })
     refetch()
     toast.success('Order is paid')
+
+    // Update stock after payment
+    await updateStock(
+      order!.orderItems.map((item) => ({
+        productId: item._id,
+        quantity: item.quantity,
+      }))
+    )
+    toast.success('Stock updated after payment')
   }
 
   const [{ isPending, isRejected }, paypalDispatch] = usePayPalScriptReducer()
@@ -87,7 +98,16 @@ export default function OrderPage() {
         try {
           await payOrder({ orderId: orderId!, ...details })
           refetch()
-          toast.success('Order is paid successfully')
+
+          // Update stock after payment
+          await updateStock(
+            order!.orderItems.map((item) => ({
+              productId: item._id,
+              quantity: item.quantity,
+            }))
+          )
+
+          toast.success('Order is paid successfully and stock updated')
         } catch (err) {
           toast.error(getError(err as ApiError))
         }
@@ -208,23 +228,28 @@ export default function OrderPage() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                {/* Conditional rendering based on the payment method */}
                 {!order.isPaid && (
                   <ListGroup.Item>
-                    {isPending ? (
-                      <LoadingBox />
-                    ) : isRejected ? (
-                      <MessageBox variant="danger">
-                        Error in connecting to PayPal
-                      </MessageBox>
-                    ) : (
-                      <div>
-                        <PayPalButtons
-                          {...paypalbuttonTransactionProps}
-                        ></PayPalButtons>
-                        <Button onClick={testPayHandler}>Test Pay</Button>
-                      </div>
-                    )}
-                    {loadingPay && <LoadingBox></LoadingBox>}
+                    {order.paymentMethod === 'PayPal' ? (
+                      <>
+                        {isPending ? (
+                          <LoadingBox />
+                        ) : isRejected ? (
+                          <MessageBox variant="danger">
+                            Error in connecting to PayPal
+                          </MessageBox>
+                        ) : (
+                          <div>
+                            <PayPalButtons {...paypalbuttonTransactionProps} />
+                            <Button onClick={testPayHandler}>Test Pay</Button>
+                          </div>
+                        )}
+                        {loadingPay && <LoadingBox />}
+                      </>
+                    ) : order.paymentMethod === 'Test pay' ? (
+                      <Button onClick={testPayHandler}>Test Pay</Button>
+                    ) : null}
                   </ListGroup.Item>
                 )}
               </ListGroup>
