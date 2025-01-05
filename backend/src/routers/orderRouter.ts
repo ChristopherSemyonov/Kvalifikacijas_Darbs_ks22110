@@ -2,9 +2,11 @@ import express, { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import { Order, OrderModel } from '../models/orderModel'
 import { Product } from '../models/productModel'
-import { isAuth } from '../utils'
+import { isAuth, isAdmin } from '../utils'
+
 export const orderRouter = express.Router()
 
+// Get orders of the logged-in user
 orderRouter.get(
   '/mine',
   isAuth,
@@ -14,8 +16,19 @@ orderRouter.get(
   })
 )
 
+// Get all orders (admin only)
 orderRouter.get(
-  // /api/orders/:id
+  '/all',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req: Request, res: Response) => {
+    const orders = await OrderModel.find({})
+    res.json(orders)
+  })
+)
+
+// Get a specific order by ID
+orderRouter.get(
   '/:id',
   isAuth,
   asyncHandler(async (req: Request, res: Response) => {
@@ -28,6 +41,7 @@ orderRouter.get(
   })
 )
 
+// Create a new order
 orderRouter.post(
   '/',
   isAuth,
@@ -53,6 +67,7 @@ orderRouter.post(
   })
 )
 
+// Mark an order as paid
 orderRouter.put(
   '/:id/pay',
   isAuth,
@@ -69,8 +84,41 @@ orderRouter.put(
         email_address: req.body.email_address,
       }
       const updatedOrder = await order.save()
-
       res.send({ order: updatedOrder, message: 'Order Paid Successfully' })
+    } else {
+      res.status(404).json({ message: 'Order Not Found' })
+    }
+  })
+)
+
+// Mark an order as delivered
+orderRouter.patch(
+  '/:id/deliver',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req: Request, res: Response) => {
+    const order = await OrderModel.findById(req.params.id)
+    if (order) {
+      order.isDelivered = true
+      order.deliveredAt = new Date(Date.now())
+      const updatedOrder = await order.save()
+      res.json({ message: 'Order Delivered Successfully', order: updatedOrder })
+    } else {
+      res.status(404).json({ message: 'Order Not Found' })
+    }
+  })
+)
+
+// Delete an order
+orderRouter.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  asyncHandler(async (req: Request, res: Response) => {
+    const order = await OrderModel.findById(req.params.id)
+    if (order) {
+      await OrderModel.deleteOne({ _id: req.params.id }) // Safely delete the order
+      res.json({ message: 'Order Deleted Successfully' })
     } else {
       res.status(404).json({ message: 'Order Not Found' })
     }

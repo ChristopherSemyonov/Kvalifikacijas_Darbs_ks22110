@@ -1,4 +1,5 @@
 import { Container, Row, Col, Image, Card } from 'react-bootstrap'
+import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
 
 const CategorySelectionPage = () => {
@@ -10,6 +11,9 @@ const CategorySelectionPage = () => {
 
   return (
     <Container className="text-center mt-5">
+      <Helmet>
+        <title>Categories</title>
+      </Helmet>
       <h1>Select a Product Category</h1>
       <Row className="mt-4">
         <Col md={4} className="mb-4">

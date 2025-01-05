@@ -14,7 +14,7 @@ function MainPage() {
         <title>HomePage</title>
       </Helmet>
       <h1>Welcome to PCWorld!</h1>
-      <p>Buy only the best graphics cards in our shop.</p>
+      <p>Buy only the best computer components in our shop!</p>
       <div className="mb-3 d-flex align-items-center">
         {userInfo ? (
           <>

@@ -53,6 +53,12 @@ export const useGetOrderHistoryQuery = () =>
       (await apiClient.get<Order[]>(`/api/orders/mine`)).data,
   })
 
+export const useGetAllOrderHistoryQuery = () =>
+  useQuery({
+    queryKey: ['order-history'],
+    queryFn: async () => (await apiClient.get<Order[]>(`/api/orders/all`)).data,
+  })
+
 export const useUpdateStockMutation = () =>
   useMutation({
     mutationFn: async (orderItems: { productId: string; quantity: number }[]) =>
@@ -61,4 +67,22 @@ export const useUpdateStockMutation = () =>
           orderItems,
         })
       ).data,
+  })
+
+// New hooks
+export const useDeliverOrderMutation = () =>
+  useMutation({
+    mutationFn: async (orderId: string) =>
+      (
+        await apiClient.patch<{ message: string }>(
+          `/api/orders/${orderId}/deliver`
+        )
+      ).data,
+  })
+
+export const useDeleteOrderMutation = () =>
+  useMutation({
+    mutationFn: async (orderId: string) =>
+      (await apiClient.delete<{ message: string }>(`/api/orders/${orderId}`))
+        .data,
   })

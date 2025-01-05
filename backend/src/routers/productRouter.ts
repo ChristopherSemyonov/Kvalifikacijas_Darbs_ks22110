@@ -80,3 +80,30 @@ productRouter.post(
     }
   })
 )
+
+productRouter.put(
+  '/:id/update-stock',
+  asyncHandler(async (req, res) => {
+    const { stockQuantity } = req.body
+
+    if (stockQuantity <= 0 || isNaN(stockQuantity)) {
+      return res.status(400).json({ message: 'Invalid stock quantity' })
+    }
+
+    const product = await ProductModel.findById(req.params.id)
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' })
+    }
+
+    // Add the stock to the product's existing countInStock
+    product.countInStock += stockQuantity
+
+    await product.save()
+
+    res.status(200).json({
+      message: `Successfully added ${stockQuantity} items to the stock`,
+      product,
+    })
+  })
+)

@@ -54,6 +54,9 @@ img.thumbnail {
   margin-right: 10px;
   margin-left: 20px;
 }
+.nav-link {
+  margin-left: 10px;
+}
 
 .logo {
   width: 40px;
@@ -121,4 +124,8 @@ img.thumbnail {
 
 .category-card:hover {
   text-decoration: underline;
+}
+
+.management-buttons {
+  margin-right: 5px;
 }

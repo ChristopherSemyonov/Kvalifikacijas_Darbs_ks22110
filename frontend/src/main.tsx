@@ -28,6 +28,7 @@ import OrderHistoryPage from './pages/OrderHistoryPage.tsx'
 import MainPage from './pages/MainPage.tsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage.tsx'
 import CategorySelectionPage from './pages/CategorySelectionPage.tsx'
+import OrderDeliveryManagementPage from './pages/OrderDeliveryManagementPage.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +47,10 @@ const router = createBrowserRouter(
         <Route path="placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderPage />} />
         <Route path="/orderhistory" element={<OrderHistoryPage />} />
+        <Route
+          path="deliverymanagement"
+          element={<OrderDeliveryManagementPage />}
+        />
       </Route>
     </Route>
   )

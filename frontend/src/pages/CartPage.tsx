@@ -45,7 +45,7 @@ export default function CartPage() {
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Cart is empty. <Link to="/products">Go Shopping</Link>
+              Cart is empty. <Link to="/category">Go Shopping</Link>
             </MessageBox>
           ) : (
             <ListGroup>
