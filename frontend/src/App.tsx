@@ -47,6 +47,9 @@ function App() {
               <Navbar.Brand>
                 <img src="/custom-icon.svg" alt="Logo" className="logo" />
                 <span className="brand-text">PCWorld</span>
+                {userInfo?.isAdmin && (
+                  <span className="ms-2 text-danger">Admin</span>
+                )}
               </Navbar.Brand>
             </LinkContainer>
           </Container>
@@ -76,6 +79,11 @@ function App() {
                 <LinkContainer to="/orderhistory">
                   <NavDropdown.Item>Order History</NavDropdown.Item>
                 </LinkContainer>
+                {userInfo.isAdmin && (
+                  <LinkContainer to="/deliverymanagement">
+                    <NavDropdown.Item>Delivery Management</NavDropdown.Item>
+                  </LinkContainer>
+                )}
                 <Link
                   className="dropdown-item"
                   to="#signout"
