@@ -1,5 +1,9 @@
 import { useState, useContext } from 'react'
-import { useGetProductDetailsBySlugQuery } from '../hooks/productHooks'
+import {
+  useGetProductDetailsBySlugQuery,
+  useGetProductReviewsQuery,
+  useSubmitReviewMutation,
+} from '../hooks/productHooks'
 import { Store } from '../Store'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
@@ -13,17 +17,20 @@ import {
   Card,
   ListGroup,
   Badge,
+  Form,
 } from 'react-bootstrap'
-import Rating from '../components/Rating'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useUpdateProductStockMutation } from '../hooks/productHooks'
 import { convertProductToCartItem } from '../utils' // Assuming this utility exists
+import Rating from '../components/Rating'
 
 export default function ProductPage() {
   const { slug } = useParams()
-  const { state, dispatch } = useContext(Store) // Ensure dispatch is from Store context
+  const { state, dispatch } = useContext(Store)
   const { cart, userInfo } = state
   const [stockQuantity, setStockQuantity] = useState(1)
+  const [rating, setRating] = useState(0)
+  const [comment, setComment] = useState('')
 
   // Fetch product details by slug
   const {
@@ -32,12 +39,19 @@ export default function ProductPage() {
     error,
   } = useGetProductDetailsBySlugQuery(slug!)
 
-  // Use the mutation for updating the stock
+  // Fetch product reviews
+  const {
+    data: reviews,
+    isLoading: isReviewsLoading,
+    error: reviewsError,
+  } = useGetProductReviewsQuery(product?._id || '')
+
+  const { mutateAsync: submitReview } = useSubmitReviewMutation()
+
   const { mutateAsync: updateStock } = useUpdateProductStockMutation()
 
   const navigate = useNavigate()
 
-  // Handle add to cart
   const addToCartHandler = () => {
     const existItem = cart.cartItems.find((x) => x._id === product!._id)
     const quantity = existItem ? existItem.quantity + 1 : 1
@@ -46,7 +60,6 @@ export default function ProductPage() {
       return
     }
 
-    // Dispatch the action to add item to cart
     dispatch({
       type: 'CART_ADD_ITEM',
       payload: { ...convertProductToCartItem(product!), quantity },
@@ -56,19 +69,16 @@ export default function ProductPage() {
     navigate('/cart')
   }
 
-  // Handle increase in stock quantity
   const handleIncrease = () => {
     setStockQuantity(stockQuantity + 1)
   }
 
-  // Handle decrease in stock quantity
   const handleDecrease = () => {
     if (stockQuantity > 1) {
       setStockQuantity(stockQuantity - 1)
     }
   }
 
-  // Handle stock quantity input change
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value)
     if (!isNaN(value) && value > 0) {
@@ -76,7 +86,6 @@ export default function ProductPage() {
     }
   }
 
-  // Handle adding stock to the product
   const handleAddToStock = async () => {
     if (stockQuantity <= 0) {
       toast.warn('Please enter a valid quantity')
@@ -86,7 +95,7 @@ export default function ProductPage() {
     try {
       if (product) {
         await updateStock({
-          productId: product._id, // Use the product ID
+          productId: product._id,
           stockQuantity,
         })
         toast.success(`Added ${stockQuantity} item(s) to stock!`)
@@ -96,7 +105,29 @@ export default function ProductPage() {
     }
   }
 
-  // Loading, error, or product display
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!comment) {
+      toast.warn('Please provide comment!')
+      return
+    }
+
+    try {
+      if (product) {
+        await submitReview({
+          productId: product._id,
+          rating,
+          comment,
+        })
+        toast.success('Review submitted successfully!')
+        setRating(0)
+        setComment('')
+      }
+    } catch (error) {
+      toast.error('One review per user allowed!')
+    }
+  }
+
   return isLoading ? (
     <LoadingBox />
   ) : error ? (
@@ -115,7 +146,11 @@ export default function ProductPage() {
               <h1>{product.name}</h1>
               <Rating rating={product.rating} numReviews={product.numReviews} />
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Price without tax: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>
+              Count in stock: {product.countInStock}
+            </ListGroup.Item>
+            <ListGroup.Item>Brand: {product.brand}</ListGroup.Item>
             <ListGroup.Item>
               Description: <p>{product.description}</p>
             </ListGroup.Item>
@@ -127,8 +162,8 @@ export default function ProductPage() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Price</Col>
-                    <Col>${product.price}</Col>
+                    <Col>Price with tax:</Col>
+                    <Col>${(product.price * 1.2).toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -183,6 +218,85 @@ export default function ProductPage() {
               </ListGroup>
             </Card.Body>
           </Card>
+        </Col>
+      </Row>
+
+      {userInfo && (
+        <Row className="mt-4">
+          <Col md={12}>
+            <h3>Leave a Review</h3>
+            <Form onSubmit={handleSubmitReview}>
+              <Form.Group controlId="rating">
+                <Form.Label>Rating from 0 to 5:</Form.Label>
+                <div className="rating">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <i
+                      key={star}
+                      className={rating >= star ? 'fas fa-star' : 'far fa-star'}
+                      onClick={() => setRating(star)}
+                      style={{
+                        cursor: 'pointer',
+                        color: '#FFD700',
+                        fontSize: '24px',
+                        marginRight: '5px',
+                      }}
+                    ></i>
+                  ))}
+                </div>
+              </Form.Group>
+
+              <Form.Group controlId="comment">
+                <Form.Label>Comment:</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+              </Form.Group>
+
+              <Button type="submit" variant="success" className="mt-3">
+                Submit Review
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      )}
+
+      <Row className="mt-4">
+        <Col md={12}>
+          <h2>Reviews</h2>
+          {isReviewsLoading ? (
+            <LoadingBox />
+          ) : reviewsError ? (
+            <MessageBox variant="danger">error</MessageBox>
+          ) : reviews && reviews.length === 0 ? (
+            <MessageBox>No Reviews</MessageBox>
+          ) : (
+            <ListGroup variant="flush">
+              {reviews.map((review) => (
+                <ListGroup.Item key={review._id}>
+                  <strong>{review.name}</strong>
+                  <div className="rating">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <i
+                        key={star}
+                        className={
+                          review.rating >= star ? 'fas fa-star' : 'far fa-star'
+                        }
+                        style={{
+                          color: '#FFD700',
+                          fontSize: '20px',
+                          marginRight: '5px',
+                        }}
+                      ></i>
+                    ))}
+                  </div>
+                  <p>{review.comment}</p>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          )}
         </Col>
       </Row>
     </div>

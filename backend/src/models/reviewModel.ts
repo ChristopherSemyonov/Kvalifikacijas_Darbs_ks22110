@@ -1,21 +1,21 @@
-import { modelOptions, prop, Ref, getModelForClass } from '@typegoose/typegoose'
-import { Product } from './productModel' // Import the Product model
+import { modelOptions, prop, getModelForClass, Ref } from '@typegoose/typegoose'
+import { Product } from './productModel'
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Review {
   public _id?: string
 
-  @prop({ required: true, ref: () => Product })
-  public productId!: Ref<Product> // Reference to the Product
+  @prop({ ref: () => Product, required: true })
+  public product!: Ref<Product>
 
   @prop({ required: true })
-  public name!: string // Reviewer's name
+  public name!: string
 
   @prop({ required: true })
-  public rating!: number // Rating from 0 to 5
+  public rating!: number
 
   @prop({ required: true })
-  public comment!: string // Review comment
+  public comment!: string
 }
 
 export const ReviewModel = getModelForClass(Review)

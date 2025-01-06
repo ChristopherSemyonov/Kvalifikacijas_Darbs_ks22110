@@ -4,6 +4,7 @@ import { ProductModel } from '../models/productModel'
 import { sampleProducts, sampleUsers } from '../data'
 import { UserModel } from '../models/userModel'
 import { OrderModel } from '../models/orderModel'
+import { ReviewModel } from '../models/reviewModel'
 
 export const seedRouter = express.Router()
 
@@ -17,6 +18,8 @@ seedRouter.get(
     const createdUsers = await UserModel.insertMany(sampleUsers)
 
     await OrderModel.deleteMany({})
+
+    await ReviewModel.deleteMany({})
 
     res.send({ createdProducts, createdUsers })
   })

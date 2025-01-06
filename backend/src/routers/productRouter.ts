@@ -1,6 +1,8 @@
 import express from 'express'
 import { ProductModel } from '../models/productModel'
+import { ReviewModel } from '../models/reviewModel'
 import asyncHandler from 'express-async-handler'
+import { isAuth } from '../utils'
 
 export const productRouter = express.Router()
 
@@ -41,6 +43,75 @@ productRouter.get(
   })
 )
 
+// /api/products/:id/reviews
+productRouter.post(
+  '/:id/reviews',
+  isAuth,
+  asyncHandler(async (req, res) => {
+    const { rating, comment } = req.body
+    const productId = req.params.id
+
+    const product = await ProductModel.findById(productId)
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' })
+    }
+
+    const existingReview = await ReviewModel.findOne({
+      product: productId,
+      name: req.user.name,
+    })
+
+    if (existingReview) {
+      return res
+        .status(400)
+        .json({ message: 'You already reviewed this product' })
+    }
+
+    const review = new ReviewModel({
+      product: productId,
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+    })
+
+    try {
+      await review.save()
+
+      const reviews = await ReviewModel.find({ product: productId })
+
+      const totalReviews = reviews.length
+      const totalRating = reviews.reduce(
+        (acc, review) => acc + review.rating,
+        0
+      )
+
+      product.numReviews = totalReviews
+      product.rating = totalRating / totalReviews
+
+      await product.save()
+
+      res.status(201).json({ message: 'Review added successfully' })
+    } catch (error) {
+      res.status(500).json({ message: 'Failed to add review' })
+    }
+  })
+)
+
+// Get reviews for a product
+productRouter.get(
+  '/:id/reviews',
+  asyncHandler(async (req, res) => {
+    const productId = req.params.id
+
+    const reviews = await ReviewModel.find({ product: productId })
+
+    // Send reviews directly as an array (not inside an object)
+    res.json(reviews)
+  })
+)
+
+// /api/products/updateStock
 productRouter.post(
   '/updateStock',
   asyncHandler(async (req, res) => {
@@ -81,6 +152,7 @@ productRouter.post(
   })
 )
 
+// /api/products/:id/update-stock
 productRouter.put(
   '/:id/update-stock',
   asyncHandler(async (req, res) => {
@@ -96,7 +168,6 @@ productRouter.put(
       return res.status(404).json({ message: 'Product not found' })
     }
 
-    // Add the stock to the product's existing countInStock
     product.countInStock += stockQuantity
 
     await product.save()
