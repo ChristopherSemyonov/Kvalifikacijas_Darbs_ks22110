@@ -1,3 +1,7 @@
+// LoadingBox.tsx
+// Ielādes elementa izveide
+// Autors: Kristofers Semjonovs
+
 import Spinner from 'react-bootstrap/Spinner'
 
 export default function LoadingBox() {

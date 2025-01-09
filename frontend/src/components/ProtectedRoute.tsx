@@ -1,3 +1,7 @@
+// ProtectedRoute.tsx
+// Noteiktu lapu uzrādīšana tikai reģistrētiem lietotājiem
+// Autors: Kristofers Semjonovs
+
 import { useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { Store } from '../Store'

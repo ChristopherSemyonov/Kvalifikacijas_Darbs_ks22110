@@ -1,3 +1,7 @@
+// CartPage.tsx
+// Lapas "Produktu grozs" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { useContext } from 'react'
 import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'

@@ -1,13 +1,19 @@
+// Store.tsx
+// Šajā failā ir definētas darbības ar datiem, kas tiek glabāti pārlūka lokālajā glabātuvē
+// Autors: Kristofers Semjonovs
+
 import React from 'react'
 import { Cart, CartItem, ShippingAddress } from './types/Cart'
 import { UserInfo } from './types/UserInfo'
 
+// Stāvokļu tipi, glabājas lokālajā atmiņā
 type AppState = {
   mode: string
   cart: Cart
   userInfo?: UserInfo
 }
 
+// Pasūtījuma dati, tiek neilgi uzglabāti lokāli, līdz pasūtījuma veikšanai
 const initialState: AppState = {
   userInfo: localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo')!)

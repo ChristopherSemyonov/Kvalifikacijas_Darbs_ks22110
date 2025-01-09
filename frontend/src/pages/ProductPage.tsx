@@ -1,3 +1,7 @@
+// ProductPage.tsx
+// Lapas "Produkta lapa" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { useState, useContext } from 'react'
 import {
   useGetProductDetailsBySlugQuery,

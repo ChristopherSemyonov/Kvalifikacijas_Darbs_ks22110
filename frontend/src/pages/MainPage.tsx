@@ -1,3 +1,7 @@
+// MainPage.tsx
+// Lapas "Galvenais skats" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { Button, Container } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'

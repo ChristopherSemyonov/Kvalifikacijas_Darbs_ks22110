@@ -1,3 +1,7 @@
+// HomePage.tsx
+// Lapas "Produkti" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { Col, Row } from 'react-bootstrap'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'

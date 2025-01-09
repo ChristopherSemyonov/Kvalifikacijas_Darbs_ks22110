@@ -1,3 +1,7 @@
+// ProductItem.tsx
+// Produkta kartiņas elementa izveide
+// Autors: Kristofers Semjonovs
+
 import { Button, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { Product } from '../types/Product'

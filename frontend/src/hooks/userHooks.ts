@@ -1,7 +1,12 @@
+// userHooks.ts
+// Ar lietotājiem saistītu datu apstrāde
+// Autors: Kristofers Semjonovs
+
 import { useMutation } from '@tanstack/react-query'
 import apiClient from '../apiClient'
 import { UserInfo } from '../types/UserInfo'
 
+// Lietotāja pieteikšanās informācijas nosūtīšana
 export const useSigninMutation = () =>
   useMutation({
     mutationFn: async ({
@@ -19,6 +24,7 @@ export const useSigninMutation = () =>
       ).data,
   })
 
+// Lietotāja reģistrācijas datu nosūtīšana
 export const useSignupMutation = () =>
   useMutation({
     mutationFn: async ({
@@ -39,6 +45,7 @@ export const useSignupMutation = () =>
       ).data,
   })
 
+// Dati par izmaiņām lietotāja informācijā
 export const useUpdateProfileMutation = () =>
   useMutation({
     mutationFn: async ({
@@ -59,6 +66,7 @@ export const useUpdateProfileMutation = () =>
       ).data,
   })
 
+// Jaunās paroles ievietošana
 export const useForgotPasswordMutation = () =>
   useMutation({
     mutationFn: async ({

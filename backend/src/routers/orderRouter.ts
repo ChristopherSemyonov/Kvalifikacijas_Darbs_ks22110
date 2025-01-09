@@ -1,3 +1,7 @@
+// orderRouter.ts
+// Ar pasūtījumiem saistītas funkcijas
+// Autors: Kristofers Semjonovs
+
 import express, { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import { Order, OrderModel } from '../models/orderModel'
@@ -6,7 +10,7 @@ import { isAuth, isAdmin } from '../utils'
 
 export const orderRouter = express.Router()
 
-// Get orders of the logged-in user
+// iegūt reģistrēta lietotāja produktus
 orderRouter.get(
   '/mine',
   isAuth,
@@ -16,7 +20,7 @@ orderRouter.get(
   })
 )
 
-// Get all orders (admin only)
+// Iegūt visus pasūtījumus (administrators)
 orderRouter.get(
   '/all',
   isAuth,
@@ -27,7 +31,7 @@ orderRouter.get(
   })
 )
 
-// Get a specific order by ID
+// Iegūt specifisku pasūtījumu izmantojot id
 orderRouter.get(
   '/:id',
   isAuth,
@@ -41,7 +45,7 @@ orderRouter.get(
   })
 )
 
-// Create a new order
+// Jauna pasūtījuma izveide
 orderRouter.post(
   '/',
   isAuth,
@@ -67,7 +71,7 @@ orderRouter.post(
   })
 )
 
-// Mark an order as paid
+// Atzīmēt pasūtījumu kā apmaksātu
 orderRouter.put(
   '/:id/pay',
   isAuth,
@@ -91,7 +95,7 @@ orderRouter.put(
   })
 )
 
-// Mark an order as delivered
+// Piegādāt pasūtījumu (administrators)
 orderRouter.patch(
   '/:id/deliver',
   isAuth,
@@ -109,7 +113,7 @@ orderRouter.patch(
   })
 )
 
-// Delete an order
+// Izdzēst pasūtījumu (administrators)
 orderRouter.delete(
   '/:id',
   isAuth,
@@ -117,7 +121,7 @@ orderRouter.delete(
   asyncHandler(async (req: Request, res: Response) => {
     const order = await OrderModel.findById(req.params.id)
     if (order) {
-      await OrderModel.deleteOne({ _id: req.params.id }) // Safely delete the order
+      await OrderModel.deleteOne({ _id: req.params.id }) // dzēst pasūtījumu
       res.json({ message: 'Order Deleted Successfully' })
     } else {
       res.status(404).json({ message: 'Order Not Found' })

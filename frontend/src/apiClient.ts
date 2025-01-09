@@ -1,5 +1,11 @@
+// ApiClient.ts
+// Lietotāja informācijas iegūšana no backend
+// Autors: Kristofers Semjonovs
+
 import axios from 'axios'
 
+
+// Pārbaude vai darbība notiek izstrādes vidē, iespējama nākotnē izveidot vietnes domēnu
 const apiClient = axios.create({
   baseURL:
     process.env.NODE_ENV === 'development' ? 'http://localhost:4000/' : '/',

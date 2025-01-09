@@ -1,6 +1,11 @@
+// data.ts
+// Autors: Kristofers Semjonovs
+
 import bcrypt from 'bcryptjs'
 import { User } from './models/userModel'
 import { Product } from './models/productModel'
+
+// Fails ar sākuma datiem, šie dati tiek pievienoti datubāzei tās izveides brīdī
 
 export const sampleProducts: Product[] = [
   {

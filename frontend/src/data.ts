@@ -1,3 +1,7 @@
+// UserInfo.ts
+// Cieti kodēti produktu dati, tika izmantoti testēšanai bez backend
+// Autors: Kristofers Semjonovs
+
 import { Product } from './types/Product'
 
 export const sampleProducts: Product[] = [

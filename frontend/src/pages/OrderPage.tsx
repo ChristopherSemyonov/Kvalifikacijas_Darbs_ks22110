@@ -1,3 +1,7 @@
+// OrderPage.tsx
+// Lapas "Pasūtījums" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import {
   PayPalButtons,
   PayPalButtonsComponentProps,

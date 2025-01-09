@@ -1,14 +1,20 @@
+// orderHooks.ts
+// Frontend mijiedarbība ar backend, datu iegūšana vai nosūtīšana
+// Autors: Kristofers Semjonovs
+
 import { useMutation, useQuery } from '@tanstack/react-query'
 import apiClient from '../apiClient'
 import { CartItem, ShippingAddress } from '../types/Cart'
 import { Order } from '../types/Order'
 
+// Pasūtījumu detaļu iegūšana
 export const useGetOrderDetailsQuery = (id: string) =>
   useQuery({
     queryKey: ['orders', id],
     queryFn: async () => (await apiClient.get<Order>(`api/orders/${id}`)).data,
   })
 
+// Maksātāja detaļu iegūšana
 export const useGetPaypalClientIdQuery = () =>
   useQuery({
     queryKey: ['paypal-clientId'],
@@ -16,6 +22,7 @@ export const useGetPaypalClientIdQuery = () =>
       (await apiClient.get<{ clientId: string }>(`/api/keys/paypal`)).data,
   })
 
+// Pasūtījuma apmaksas datu nosūtīšana
 export const usePayOrderMutation = () =>
   useMutation({
     mutationFn: async (details: { orderId: string }) =>
@@ -27,6 +34,7 @@ export const usePayOrderMutation = () =>
       ).data,
   })
 
+// Pasūtījuma izveides datu nosūtīšana
 export const useCreateOrderMutation = () =>
   useMutation({
     mutationFn: async (order: {
@@ -46,6 +54,7 @@ export const useCreateOrderMutation = () =>
       ).data,
   })
 
+// Klienta veikto pasūtījumu iegūšana no datubāzes
 export const useGetOrderHistoryQuery = () =>
   useQuery({
     queryKey: ['order-history'],
@@ -53,12 +62,14 @@ export const useGetOrderHistoryQuery = () =>
       (await apiClient.get<Order[]>(`/api/orders/mine`)).data,
   })
 
+// Visu veikto pasūtījumu iegūšana no datubāzes (administrators)
 export const useGetAllOrderHistoryQuery = () =>
   useQuery({
     queryKey: ['order-history'],
     queryFn: async () => (await apiClient.get<Order[]>(`/api/orders/all`)).data,
   })
 
+// Produkta krājumu izmaiņas veikšana
 export const useUpdateStockMutation = () =>
   useMutation({
     mutationFn: async (orderItems: { productId: string; quantity: number }[]) =>
@@ -69,7 +80,7 @@ export const useUpdateStockMutation = () =>
       ).data,
   })
 
-// New hooks
+// Datu par pasūtījuma piegādi nosūtīšana
 export const useDeliverOrderMutation = () =>
   useMutation({
     mutationFn: async (orderId: string) =>
@@ -80,6 +91,7 @@ export const useDeliverOrderMutation = () =>
       ).data,
   })
 
+// Pieprasījums dzēst noteiktu pasūtījumu no datubāzes 
 export const useDeleteOrderMutation = () =>
   useMutation({
     mutationFn: async (orderId: string) =>

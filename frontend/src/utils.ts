@@ -1,13 +1,19 @@
+// utils.ts
+// Utilītfunkcijas
+// Autors: Kristofers Semjonovs
+
 import { ApiError } from './types/ApiError'
 import { CartItem } from './types/Cart'
 import { Product } from './types/Product'
 
+// Kļūdu apstrāde
 export const getError = (error: ApiError) => {
   return error.response && error.response.data.message
     ? error.response.data.message
     : error.message
 }
 
+// Produktu pievienošana grozā
 export const convertProductToCartItem = (product: Product): CartItem => {
   const cartItem: CartItem = {
     _id: product._id,

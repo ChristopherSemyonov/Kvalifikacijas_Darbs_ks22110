@@ -1,3 +1,7 @@
+// productRouter.ts
+// Ar produktiem saistītas funkcijas
+// Autors: Kristofers Semjonovs
+
 import express from 'express'
 import { ProductModel } from '../models/productModel'
 import { ReviewModel } from '../models/reviewModel'
@@ -8,6 +12,7 @@ export const productRouter = express.Router()
 
 const validCategories = ['CPU', 'GPU', 'MOBO']
 
+// Iegūt visus produktus atbilstoši kategorijas izvēlei
 // /api/products
 productRouter.get(
   '/',
@@ -30,6 +35,7 @@ productRouter.get(
   })
 )
 
+// Iegūt produktus pēc slug, tātad iegūt vienu noteiktu produktu
 // /api/slug/:slug
 productRouter.get(
   '/slug/:slug',
@@ -43,6 +49,7 @@ productRouter.get(
   })
 )
 
+// Ievietot produkta atsauksmi
 // /api/products/:id/reviews
 productRouter.post(
   '/:id/reviews',
@@ -98,7 +105,7 @@ productRouter.post(
   })
 )
 
-// Get reviews for a product
+// Iegūt produkta atsauksmes
 productRouter.get(
   '/:id/reviews',
   asyncHandler(async (req, res) => {
@@ -106,12 +113,11 @@ productRouter.get(
 
     const reviews = await ReviewModel.find({ product: productId })
 
-    // Send reviews directly as an array (not inside an object)
     res.json(reviews)
   })
 )
 
-// /api/products/updateStock
+// /api/products/updateStock 
 productRouter.post(
   '/updateStock',
   asyncHandler(async (req, res) => {
@@ -152,7 +158,8 @@ productRouter.post(
   })
 )
 
-// /api/products/:id/update-stock
+// Produktu pievienošana krājumam
+// /api/products/:id/update-stock 
 productRouter.put(
   '/:id/update-stock',
   asyncHandler(async (req, res) => {

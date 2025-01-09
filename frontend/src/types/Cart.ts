@@ -1,3 +1,7 @@
+// Cart.ts
+// Groza mainīgā definēšana, grozs tiek glabāts pārlūka lokālajā glabātuvē
+// Autors: Kristofers Semjonovs
+
 export type CartItem = {
   image: string | undefined
   slug: string

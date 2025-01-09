@@ -1,3 +1,7 @@
+// Rating.tsx
+// Reitinga zvaigžņu uzrādīšanas funkcija
+// Autors: Kristofers Semjonovs
+
 function Rating(props: {
   rating: number
   numReviews?: number

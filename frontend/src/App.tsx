@@ -1,3 +1,7 @@
+// App.tsx
+// Lapas nemainīgo dizaina elementu kods, šie elementi uzrādīsies neatkarīgi no tā, kurā lapā atrodaties
+// Autors: Kristofers Semjonovs
+
 import { useContext, useEffect } from 'react'
 import {
   Badge,

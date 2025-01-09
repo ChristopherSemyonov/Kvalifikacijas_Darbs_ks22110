@@ -1,3 +1,7 @@
+// shippingAddressPage.tsx
+// Lapas "Piegādes adrese" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { useContext, useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'

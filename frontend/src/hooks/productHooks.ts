@@ -1,14 +1,20 @@
+// productHooks.ts
+// Ar produktiem saistītu darbību sasaiste ar backend
+// Autors: Kristofers Semjonovs
+
 import { useQuery, useMutation } from '@tanstack/react-query'
 import apiClient from '../apiClient'
 import { Product } from '../types/Product'
 import { Review } from '../types/Review'
 
+// Produktu iegūšana no datubāzes
 export const useGetProductsQuery = () =>
   useQuery({
     queryKey: ['products'],
     queryFn: async () => (await apiClient.get<Product[]>('api/products')).data,
   })
 
+// Produktu detaļu iegūšana, atbilstoši slug
 export const useGetProductDetailsBySlugQuery = (slug: string) =>
   useQuery({
     queryKey: ['products', slug],
@@ -16,6 +22,7 @@ export const useGetProductDetailsBySlugQuery = (slug: string) =>
       (await apiClient.get<Product>(`api/products/slug/${slug}`)).data,
   })
 
+// Produktu iegūšana atbilstoši kategorijai
 export const useGetProductsByCategoryQuery = (category: string) =>
   useQuery({
     queryKey: ['products', category],
@@ -24,6 +31,7 @@ export const useGetProductsByCategoryQuery = (category: string) =>
         .data,
   })
 
+// Produkta krājuma papildināšana
 export const useUpdateProductStockMutation = () =>
   useMutation({
     mutationFn: async ({
@@ -47,6 +55,7 @@ export const useUpdateProductStockMutation = () =>
     },
   })
 
+// Produktu atsauksmju iegūšana
 export const useGetProductReviewsQuery = (productId: string) =>
   useQuery({
     queryKey: ['reviews', productId],
@@ -55,6 +64,7 @@ export const useGetProductReviewsQuery = (productId: string) =>
         .data,
   })
 
+// Produkta atsauksmes iesniegšana
 export const useSubmitReviewMutation = () =>
   useMutation({
     mutationFn: async ({

@@ -1,3 +1,7 @@
+// OrderHistoryPage.tsx
+// Lapas "Pasūtījumu vēsture" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { Button } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'

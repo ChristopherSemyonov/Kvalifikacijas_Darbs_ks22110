@@ -1,3 +1,7 @@
+// checkoutSteps.tsx
+// pasūtījuma veikšanas soļu apstrāde
+// Autors: Kristofers Semjonovs
+
 import { Col, Row } from 'react-bootstrap'
 
 export default function CheckoutSteps(props: {

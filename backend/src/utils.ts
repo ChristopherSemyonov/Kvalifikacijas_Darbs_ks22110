@@ -1,7 +1,11 @@
+// utils.ts
+// Autors: Kristofers Semjonovs
+
 import jwt from 'jsonwebtoken'
 import { User } from './models/userModel'
 import { NextFunction, Request, Response } from 'express'
 
+// Lietotāja žetons, kas satur reģistrācijas datus, kā arī administratora statusu
 export const generateToken = (user: User) => {
   return jwt.sign(
     {
@@ -17,6 +21,7 @@ export const generateToken = (user: User) => {
   )
 }
 
+// lietotāja autorizācijas pārbaudes funkcija
 export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers
   if (authorization) {
@@ -38,9 +43,10 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+// admina pārbaudes funkcija
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   if (req.user && req.user.isAdmin) {
-    next() // Proceed to the next route or middleware if the user is admin
+    next()
   } else {
     res.status(401).json({ message: 'Admin privileges required' })
   }

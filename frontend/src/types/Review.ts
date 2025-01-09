@@ -1,3 +1,7 @@
+// Review.ts
+// Atsauksmes definēšana, kādus datus satur atsauksme
+// Autors: Kristofers Semjonovs
+
 export interface Review {
   _id: string
   productId: string

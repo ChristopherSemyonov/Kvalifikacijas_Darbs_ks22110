@@ -1,3 +1,7 @@
+// SigninPage.tsx
+// Lapas "Pieteikšanās sistēmā" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { useContext, useEffect, useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'

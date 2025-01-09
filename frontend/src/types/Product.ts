@@ -1,3 +1,7 @@
+// Order.ts
+// Produkta definēšana, produkta dati
+// Autors: Kristofers Semjonovs
+
 export type Product = {
   _id: string
   name: string

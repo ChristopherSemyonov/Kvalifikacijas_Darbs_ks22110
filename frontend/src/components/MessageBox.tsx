@@ -1,3 +1,7 @@
+// MessageBox.tsx
+// Paziņojumu loga elementa izveide
+// Autors: Kristofers Semjonovs
+
 import Alert from 'react-bootstrap/Alert'
 
 import React from 'react'

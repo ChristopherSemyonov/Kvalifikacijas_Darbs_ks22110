@@ -1,3 +1,7 @@
+// Order.ts
+// Pasūtījuma definēšana, nepieciešamie dati pasūtījuma izveidei
+// Autors: Kristofers Semjonovs
+
 import { CartItem, ShippingAddress } from './Cart'
 import { User } from './User'
 

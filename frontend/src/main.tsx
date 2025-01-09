@@ -1,3 +1,8 @@
+// main.tsx
+// Lapas skatu navigācija, šeit tiek definēts url ceļš priekš jauna lapas skata
+// Autors: Kristofers Semjonovs
+// Radīts: v1.0.; 2024.11.03.
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {

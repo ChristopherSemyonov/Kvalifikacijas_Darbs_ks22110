@@ -1,3 +1,7 @@
+// ForgotPasswordPage.tsx
+// Lapas "Paroles maiņa" kods un dizains
+// Autors: Kristofers Semjonovs
+
 import { useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import { Helmet } from 'react-helmet-async'
